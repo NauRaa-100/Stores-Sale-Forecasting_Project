@@ -177,6 +177,23 @@ df=df.drop(columns=['Category','Country','Customer Name','Customer ID','Row ID',
 
 print('-----------Seperate------------') 
 #==============================================
+#Relations --
+#==============================================
+#ٌRelations
+#most Product saled ! 
+print("Sales of Books => ",df['Sub_Bookcases'].sum())
+print("Sales of Chairs => ",df['Sub_Chairs'].sum())
+print("Sales of Furnishings => ",df['Sub_Furnishings'].sum())
+print("Sales of Tables => ",df['Sub_Tables'].sum())
+#Furnishings Most saled Then Chaires then Tables ! 
+#least saled is Books 
+#Most Product has highest discount 
+
+print('-----------Seperate------------') 
+
+#==============================================
+#Features Selection
+#==============================================
 
 features_col = [
     'Quantity', 'Discount', 'Profit', 'Postal Code',
@@ -275,4 +292,5 @@ if feature in X_sel_df.columns:
     plt.show()
 else:
     print(f"{feature} not in selected features.")
+
 
