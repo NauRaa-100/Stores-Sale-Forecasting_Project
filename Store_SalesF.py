@@ -20,12 +20,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.preprocessing import StandardScaler,LabelEncoder,OneHotEncoder
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-
+import seaborn as sns
+import joblib
 #============================================== 
 #load Data --
 #============================================== 
 
-df_original=pd.read_csv(r'E:\Rev-DataScience\AI-ML\MLProjects_Structured_Data\stores_sales_forecasting.csv',encoding='latin')
+df_original=pd.read_csv(r'E:\Rev-DataScience\AI-ML\store.csv',encoding='latin')
 print(df_original.head())
 df=df_original.copy()
 
@@ -260,7 +261,7 @@ rmse=math.sqrt(mean_absolute_error(y_test,y_pred))
 print("RMSE:",round(rmse,2))
 print("R2:", round(r2,4))
 print("MAE:", round(mae,4))
-
+'''
 # ======= 6) Plot Actual vs Predicted =======
 plt.figure(figsize=(6,5))
 plt.scatter(y_test, y_pred, alpha=0.6)
@@ -269,7 +270,7 @@ plt.xlabel("Actual Sales")
 plt.ylabel("Predicted Sales")
 plt.title("Actual vs Predicted Sales")
 plt.show()
-
+'''
 # ======= 7) Example: Predicted probability/target as function of one feature (Sub_Bookcases) =======
 feature = 'Sub_Bookcases'
 if feature in X_sel_df.columns:
@@ -293,4 +294,18 @@ if feature in X_sel_df.columns:
 else:
     print(f"{feature} not in selected features.")
 
+residual=y_test - y_pred
+sns.histplot(residual,kde=True)
+plt.title('Residuals Distribution')
+plt.show()
 
+#Correlation
+plt.figure(figsize=(10,7))
+plt.title("Correlation Of Sales")
+sns.heatmap(df[features_col + ['Sales']].corr(),annot=True,cmap='coolwarm')
+plt.show()
+
+#===========Saving Model==============
+
+joblib.dump(model,'model.pkl')
+joblib.dump(scaler,'scaler')
